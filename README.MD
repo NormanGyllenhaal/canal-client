@@ -35,14 +35,46 @@ maven 依赖
 |canal.async |是否是异步消费，异步消费时，消费时异常将导致消息不会回滚，也不保证顺序性 |true
 
 ## 订阅数据库的增删改操作
-实现EntryHandler<T> 接口，泛型为想要订阅的数据库表的实体对象，下面以一个user对象为例
+实现EntryHandler<T> 接口，泛型为想要订阅的数据库表的实体对象，
+该接口的方法为 java 8 的 default 方法，方法可以不实现，如果只要监听增加操作，只实现增加方法即可
+例如，增加操作返回增加的对象信息  
+下面以一个user对象为例,
+默认情况下，将使用实体对象的jpa 注解 @Table中的表名来转换为EntryHandler中的泛型对象，
 ```java
 public class UserHandler implements EntryHandler<User>{
 
 }
 ```
-该接口的方法为 java 8 的 default 方法，方法可以不实现，如果只要监听增加操作，只实现增加方法即可
-例如，增加操作返回增加的对象信息  
+如果实体类没有使用jpa @Table的注解，也可以使用@CanalTable 注解在EntryHandler来标记表名，例如  
+```java
+@CanalTable(value = "t_user")
+public class UserHandler implements EntryHandler<User>{
+
+}
+```
+另外也支持统一的处理@CanalTable(value="all"),这样除去已存在的EntryHandler外，其他所有表的处理将通过该处理器
+```java
+@CanalTable(value = "all")
+@Component
+public class DefaultEntryHandler implements EntryHandler<Map<String, String>> {
+     @Override
+        public void insert(Map<String, String> map) {
+            logger.info("insert message  {}", user);
+        }
+    
+        @Override
+        public void update(Map<String, String> before, Map<String, String> after) {
+            logger.info("update before {} ", before);
+            logger.info("update after {}", after);
+        }
+    
+        @Override
+        public void delete(Map<String, String> map) {
+            logger.info("delete  {}", user);
+        }
+}
+```
+
 ```java
    @Override
     public void insert(User user) {
