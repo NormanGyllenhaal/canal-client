@@ -89,7 +89,7 @@ public class UserHandler implements EntryHandler<User>{
    }
 }
 ```
-另外也支持统一的处理@CanalTable(value="all"),这样除去已存在的EntryHandler外，其他所有表的处理将通过该处理器
+另外也支持统一的处理@CanalTable(value="all"),这样除去存在EntryHandler的表以外，其他所有表的处理将通过该处理器
 ```java
 @CanalTable(value = "all")
 @Component
