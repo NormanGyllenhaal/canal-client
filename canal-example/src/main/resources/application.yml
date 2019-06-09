@@ -1,0 +1,15 @@
+canal:
+  mode: simple
+  hostname: 192.168.33.10
+  port: 11111
+  destination: example
+spring:
+  application:
+    name: canal-example
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.33.10:3306/rc_video_chat
+    username: root
+    password: 123456
+  jooq:
+    sql-dialect: mysql
