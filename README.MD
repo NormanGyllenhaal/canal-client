@@ -61,7 +61,6 @@ public class UserHandler implements EntryHandler<User>{
     }
     /**
     * 对于更新操作来讲，before 中的属性只包含变更的属性，after 包含所有属性，通过对比可发现那些属性更新了
-      删除操作,user为删除的对象信息  
    * @param before
    * @param after
     */
