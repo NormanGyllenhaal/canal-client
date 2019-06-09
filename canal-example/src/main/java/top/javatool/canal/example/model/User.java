@@ -27,13 +27,13 @@ public class User implements Serializable {
 
 
     /**
-     * 用户性别 1 男性 2 女性
+     * 用户性别
      */
 
     private Integer gender;
 
     /**
-     * 用户所在国家id
+     * 国家id
      */
     @Column(name = "country_id")
     private Integer countryId;
@@ -101,4 +101,17 @@ public class User implements Serializable {
         this.createTime = createTime;
     }
 
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("User{");
+        sb.append("id=").append(id);
+        sb.append(", userName='").append(userName).append('\'');
+        sb.append(", gender=").append(gender);
+        sb.append(", countryId=").append(countryId);
+        sb.append(", birthday=").append(birthday);
+        sb.append(", createTime=").append(createTime);
+        sb.append('}');
+        return sb.toString();
+    }
 }

@@ -5,7 +5,6 @@ import top.javatool.canal.client.annotation.CanalTable;
 import top.javatool.canal.client.enums.TableNameEnum;
 import top.javatool.canal.client.handler.EntryHandler;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

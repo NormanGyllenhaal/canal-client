@@ -12,3 +12,5 @@ spring:
     password: 123456
   jooq:
     sql-dialect: mysql
+  flyway:
+    baseline-on-migrate: true
