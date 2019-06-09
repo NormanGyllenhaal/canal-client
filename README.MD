@@ -59,7 +59,7 @@ public class UserHandler implements EntryHandler<User>{
 public class DefaultEntryHandler implements EntryHandler<Map<String, String>> {
      @Override
         public void insert(Map<String, String> map) {
-            logger.info("insert message  {}", user);
+            logger.info("insert message  {}", map);
         }
     
         @Override
@@ -70,7 +70,7 @@ public class DefaultEntryHandler implements EntryHandler<Map<String, String>> {
     
         @Override
         public void delete(Map<String, String> map) {
-            logger.info("delete  {}", user);
+            logger.info("delete  {}", map);
         }
 }
 ```
