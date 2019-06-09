@@ -38,9 +38,9 @@ java 方式
 |canal.userName     |canal 的用户名    |空
 |canal.password |canal 的密码     |空
 |canal.zkServers |zookeeper 地址，zookeeper canal 客户端需配置   |空
-|kafka.servers |kafka地址，kafka canal 客户端  |空
-|kafka.topic |kafka topic，为canal的instance名称 kafka canal 客户端    |空
-|kafka.groupId  |kafka groupId 消费者订阅消息时可使用，kafka canal 客户端 |空
+|canal.servers |kafka地址，kafka canal 客户端  |空
+|canal.topic |kafka topic，为canal的instance名称 kafka canal 客户端    |空
+|canal.groupId  |kafka groupId 消费者订阅消息时可使用，kafka canal 客户端 |空
 |canal.async |是否是异步消费，异步消费时，消费时异常将导致消息不会回滚，也不保证顺序性 |true
 
 ### 订阅数据库的增删改操作
