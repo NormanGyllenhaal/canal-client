@@ -34,10 +34,10 @@ maven 依赖
 |kafka.groupId  |kafka groupId 消费者订阅消息时可使用，kafka canal 客户端 |空
 |canal.async |是否是异步消费，异步消费时，消费时异常将导致消息不会回滚，也不保证顺序性 |true
 
-## 订阅数据库的增删改操作
+### 订阅数据库的增删改操作
 实现EntryHandler<T> 接口，泛型为想要订阅的数据库表的实体对象，
 该接口的方法为 java 8 的 default 方法，方法可以不实现，如果只要监听增加操作，只实现增加方法即可 
-下面以一个user对象为例,
+下面以一个t_user表的user实体对象为例,
 默认情况下，将使用实体对象的jpa 注解 @Table中的表名来转换为EntryHandler中的泛型对象，
 ```java
 public class UserHandler implements EntryHandler<User>{
@@ -47,8 +47,38 @@ public class UserHandler implements EntryHandler<User>{
 如果实体类没有使用jpa @Table的注解，也可以使用@CanalTable 注解在EntryHandler来标记表名，例如  
 ```java
 @CanalTable(value = "t_user")
+@Component
 public class UserHandler implements EntryHandler<User>{
 
+   /**
+   *  新增操作
+   * @param user
+    */
+   @Override
+    public void insert(User user) {
+	   //你的逻辑
+        log.info("新增 {}",user);
+    }
+    /**
+    * 对于更新操作来讲，before 中的属性只包含变更的属性，after 包含所有属性，通过对比可发现那些属性更新了
+      删除操作,user为删除的对象信息  
+   * @param before
+   * @param after
+    */
+    @Override
+    public void update(User before, User after) {
+    	//你的逻辑
+        log.info("更新 {} {}",before,after);
+    }
+    /**
+    *  删除操作
+    * @param user
+    */
+    @Override
+    public void delete(User user) {
+       //你的逻辑
+        log.info("删除 {}",user); 
+   }
 }
 ```
 另外也支持统一的处理@CanalTable(value="all"),这样除去已存在的EntryHandler外，其他所有表的处理将通过该处理器
@@ -72,34 +102,6 @@ public class DefaultEntryHandler implements EntryHandler<Map<String, String>> {
             logger.info("delete  {}", map);
         }
 }
-```
-
-```java
-   @Override
-    public void insert(User user) {
-	   //你的逻辑
-        log.info("context {}",CanalContext.getModel());
-        log.info("新增 {}",user);
-    }
-```
-更新操作  
-```java
-@Override
-    public void update(User before, User after) {
-	    //你的逻辑
-        log.info("context {}",CanalContext.getModel());
-        log.info("更新 {} {}",before,after);
-    }
-```
-对于更新操作来讲，before 中的属性只包含变更的属性，after 包含所有属性，通过对比可发现那些属性更新了
-删除操作,user为删除的对象信息  
-```
-@Override
-    public void delete(User user) {
-	    //你的逻辑
-        log.info("context {}",CanalContext.getModel());
-        log.info("删除 {}",user);
-    }
 ```
 如果你想获取除实体类信息外的其他信息，可以使用
 ```java
