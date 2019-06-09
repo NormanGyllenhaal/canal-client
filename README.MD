@@ -35,13 +35,13 @@ maven 依赖
 |canal.async |是否是异步消费，异步消费时，消费时异常将导致消息不会回滚，也不保证顺序性 |true
 
 ## 订阅数据库的增删改操作
-实现EntryHandler<T> 接口，泛型为想要订阅的数据库表的实体对象，下面以user表为例
+实现EntryHandler<T> 接口，泛型为想要订阅的数据库表的实体对象，下面以一个user对象为例
 ```java
 public class UserHandler implements EntryHandler<User>{
 
 }
 ```
-该接口的方法为default 方法，方法可以不实现，如果只要监听增加操作，只实现增加方法即可
+该接口的方法为 java 8 的 default 方法，方法可以不实现，如果只要监听增加操作，只实现增加方法即可
 例如，增加操作返回增加的对象信息  
 ```java
    @Override
