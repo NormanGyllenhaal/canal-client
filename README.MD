@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/NormanGyllenhaal/canal-client.svg?branch=master)](https://travis-ci.org/NormanGyllenhaal/canal-client)
 ## 易用的canal 客户端 easy canal client
 
 ### 介绍
