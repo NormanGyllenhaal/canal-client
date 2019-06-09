@@ -106,3 +106,5 @@ public class DefaultEntryHandler implements EntryHandler<Map<String, String>> {
 ```java
 CanalModel canal = CanalContext.getModel();
 ```
+具体使用可以查询项目demo 示例
+https://github.com/NormanGyllenhaal/canal-client/tree/master/canal-example
