@@ -1,9 +1,9 @@
 ## 易用的canal 客户端 easy canal client
 
 ### 介绍
-阿里巴巴mysql数据库binlog的增量订阅&消费组件,
-https://github.com/alibaba/canal
-canal 自身提供了简单的客户端，数据格式较为复杂，处理消费数据也不太方便，
+canal 阿里巴巴mysql数据库binlog的增量订阅&消费组件,https://github.com/alibaba/canal  
+使用前请先了解canal
+canal 自身提供了简单的客户端，数据格式较为复杂，处理消费数据要每次进行格式转换，确实不太方便，
 为了方便给业务使用，提供一种直接能获取实体对象的方式来进行消费才更方便。
 
 ### 如何使用
@@ -11,13 +11,16 @@ spring boot 方式
 maven 依赖
 ```xml
  <dependency>
-            <groupId>top.javatool</groupId>
-            <artifactId>canal-spring-boot-autoconfigure</artifactId>
-            <version>1.0.0-RELEASE</version>
+     <groupId>top.javatool</groupId>
+     <artifactId>canal-spring-boot-autoconfigure</artifactId>
+     <version>1.0.0-RELEASE</version>
  </dependency>
 ```
+配置说明
+
 |属性|描述|默认值|
 |:----    |:---------------------    |:------- |
+|canal.mode |canal 客户端类型 目前支持4种类型 simple,cluster,zookeeper,kafka |simple
 |canal.filter| canal过滤的表名称，如配置则只订阅配置的表|""
 |canal.batchSize| 消息的数量，超过该次数将进行一次消费 |1(个)
 |canal.timeout  |消费的时间间隔(ms)|1000ms
@@ -66,4 +69,8 @@ public class UserHandler implements EntryHandler<User>{
         log.info("context {}",CanalContext.getModel());
         log.info("删除 {}",user);
     }
+```
+如果你想获取除实体类信息外的其他信息，可以使用
+```java
+CanalModel canal = CanalContext.getModel();
 ```
