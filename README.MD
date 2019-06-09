@@ -11,10 +11,18 @@ canal 自身提供了简单的客户端，数据格式较为复杂，处理消�
 spring boot 方式 
 maven 依赖
 ```xml
+  <dependency>
+      <groupId>top.javatool</groupId>
+      <artifactId>canal-spring-boot-starter</artifactId>
+      <version>1.0.0-RELEASE</version>
+  </dependency>
+```
+java 方式
+```xml
  <dependency>
-     <groupId>top.javatool</groupId>
-     <artifactId>canal-spring-boot-autoconfigure</artifactId>
-     <version>1.0.0-RELEASE</version>
+       <groupId>top.javatool</groupId>
+       <artifactId>canal-client</artifactId>
+       <version>1.0.0-RELEASE</version>
  </dependency>
 ```
 配置说明
