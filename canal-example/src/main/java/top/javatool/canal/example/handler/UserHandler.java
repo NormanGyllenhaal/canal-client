@@ -10,7 +10,7 @@ import top.javatool.canal.example.model.User;
 
 
 @Component
-@CanalTable(value = "rc_user")
+@CanalTable(value = "t_user")
 public class UserHandler implements EntryHandler<User> {
 
 
