@@ -25,7 +25,7 @@ import java.util.concurrent.ExecutorService;
 @Configuration
 @EnableConfigurationProperties(CanalSimpleProperties.class)
 @ConditionalOnBean(value = {EntryHandler.class})
-@ConditionalOnProperty(value = CanalProperties.CANAL_MODE, havingValue = "simple")
+@ConditionalOnProperty(value = CanalProperties.CANAL_MODE, havingValue = "simple", matchIfMissing = true)
 @Import(ThreadPoolAutoConfiguration.class)
 public class SimpleClientAutoConfiguration {
 
