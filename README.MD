@@ -33,14 +33,14 @@ java 方式
 |canal.filter| canal过滤的表名称，如配置则只订阅配置的表|""
 |canal.batchSize| 消息的数量，超过该次数将进行一次消费 |1(个)
 |canal.timeout  |消费的时间间隔(ms)|1000ms
-|canal.canalServers     |服务地址    |空
-|canal.destination |canal 的instance 名称    |空
-|canal.userName     |canal 的用户名    |空
-|canal.password |canal 的密码     |空
-|canal.zkServers |zookeeper 地址，zookeeper canal 客户端需配置   |空
-|canal.servers |kafka地址，kafka canal 客户端  |空
-|canal.topic |kafka topic，为canal的instance名称 kafka canal 客户端    |空
-|canal.groupId  |kafka groupId 消费者订阅消息时可使用，kafka canal 客户端 |空
+|canal.canalServers     |服务地址    |null
+|canal.destination |canal 的instance 名称    |null
+|canal.userName     |canal 的用户名    |null
+|canal.password |canal 的密码     |null
+|canal.zkServers |zookeeper 地址，zookeeper canal 客户端需配置   |null
+|canal.servers |kafka地址，kafka canal 客户端  |null
+|canal.topic |kafka topic，为canal的instance名称 kafka canal 客户端    |null
+|canal.groupId  |kafka groupId 消费者订阅消息时可使用，kafka canal 客户端 |null
 |canal.async |是否是异步消费，异步消费时，消费时异常将导致消息不会回滚，也不保证顺序性 |true
 
 ### 订阅数据库的增删改操作
