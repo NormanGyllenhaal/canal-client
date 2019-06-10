@@ -2,10 +2,10 @@
 ## 易用的canal 客户端 easy canal client
 
 ### 介绍
-canal 阿里巴巴mysql数据库binlog的增量订阅&消费组件,https://github.com/alibaba/canal  
-使用前请先了解canal  
-canal 自身提供了简单的客户端，数据格式较为复杂，处理消费数据要每次进行格式转换，确实不太方便。
-为了方便给业务使用，提供一种直接能获取实体对象的方式来进行消费才更方便。
+canal 是阿里巴巴mysql数据库binlog的增量订阅&消费组件,https://github.com/alibaba/canal。
+使用该客户端前请先了解canal  
+canal 自身提供了简单的客户端，如果要转换为数据库的实体对象，处理消费数据要每次进行格式转换。
+该客户端直接将canal的数据原始类型转换为各个数据表的实体对象，方便给业务使用。
 
 ### 如何使用
 spring boot 方式 
