@@ -3,7 +3,7 @@
 
 ### 介绍
 canal 是阿里巴巴mysql数据库binlog的增量订阅&消费组件  
-使用该客户端前请先了解canal,https://github.com/alibaba/canal 
+使用该客户端前请先了解canal,https://github.com/alibaba/canal  
 canal 自身提供了简单的客户端，如果要转换为数据库的实体对象，处理消费数据要每次进行对象转换。
 该客户端直接将canal的数据原始类型转换为各个数据表的实体对象，并解耦数据的增删改操作，方便给业务使用。
 
