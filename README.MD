@@ -32,7 +32,7 @@ java 方式
 |canal.mode |canal 客户端类型 目前支持4种类型 simple,cluster,zookeeper,kafka(kafka 目前支持flatMessage 格式)|simple
 |canal.filter| canal过滤的表名称，如配置则只订阅配置的表|""
 |canal.batchSize| 消息的数量，超过该次数将进行一次消费 |1(个)
-|canal.timeout  |消费的时间间隔(ms)|1000ms
+|canal.timeout  |消费的时间间隔(s)|1s
 |canal.canalServers     |服务地址    |null
 |canal.destination |canal 的instance 名称    |null
 |canal.userName     |canal 的用户名    |null
