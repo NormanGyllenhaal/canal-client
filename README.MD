@@ -7,6 +7,15 @@ canal 是阿里巴巴mysql数据库binlog的增量订阅&消费组件
 canal 自身提供了简单的客户端，如果要转换为数据库的实体对象，处理消费数据要每次进行对象转换。
 该客户端直接将canal的数据原始类型转换为各个数据表的实体对象，并解耦数据的增删改操作，方便给业务使用。
 
+### 要求
+java8+
+
+### 特性
+* 解耦单表增删操作
+* simple,cluster,zookeeper,kafka客户端支持
+* 同步异步处理支持
+* spring boot 开箱即用
+
 ### 如何使用
 spring boot 方式 
 maven 依赖
@@ -14,7 +23,7 @@ maven 依赖
   <dependency>
       <groupId>top.javatool</groupId>
       <artifactId>canal-spring-boot-starter</artifactId>
-      <version>1.0.0-RELEASE</version>
+      <version>1.1.0-RELEASE</version>
   </dependency>
 ```
 java 方式
@@ -22,7 +31,7 @@ java 方式
  <dependency>
        <groupId>top.javatool</groupId>
        <artifactId>canal-client</artifactId>
-       <version>1.0.0-RELEASE</version>
+       <version>1.1.0-RELEASE</version>
  </dependency>
 ```
 配置说明
