@@ -7,31 +7,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class CanalKafkaProperties extends CanalProperties {
 
 
-
-    private String servers;
-
-    private String topic;
-
-    private Integer partition;
+    private Integer partition = 0;
 
     private String groupId;
 
-
-    public String getServers() {
-        return servers;
-    }
-
-    public void setServers(String servers) {
-        this.servers = servers;
-    }
-
-    public String getTopic() {
-        return topic;
-    }
-
-    public void setTopic(String topic) {
-        this.topic = topic;
-    }
 
     public Integer getPartition() {
         return partition;

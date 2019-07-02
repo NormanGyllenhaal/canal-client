@@ -23,7 +23,7 @@ maven 依赖
   <dependency>
       <groupId>top.javatool</groupId>
       <artifactId>canal-spring-boot-starter</artifactId>
-      <version>1.1.1-RELEASE</version>
+      <version>1.2.0-RELEASE</version>
   </dependency>
 ```
 java 方式
@@ -31,26 +31,24 @@ java 方式
  <dependency>
        <groupId>top.javatool</groupId>
        <artifactId>canal-client</artifactId>
-       <version>1.1.1-RELEASE</version>
+       <version>1.2.0-RELEASE</version>
  </dependency>
 ```
 配置说明
 
 |属性|描述|默认值|
 |:----    |:---------------------    |:------- |
-|canal.mode |canal 客户端类型 目前支持4种类型 simple,cluster,zookeeper,kafka(kafka 目前支持flatMessage 格式)|simple
+|canal.mode |canal 客户端类型 目前支持4种类型 simple,cluster,zk,kafka(kafka 目前支持flatMessage 格式)|simple
 |canal.filter| canal过滤的表名称，如配置则只订阅配置的表|""
-|canal.batchSize| 消息的数量，超过该次数将进行一次消费 |1(个)
+|canal.batch-size| 消息的数量，超过该次数将进行一次消费 |1(个)
 |canal.timeout  |消费的时间间隔(s)|1s
-|canal.canalServers     |服务地址    |null
-|canal.destination |canal 的instance 名称    |null
-|canal.userName     |canal 的用户名    |null
+|canal.server     |服务地址,   |null
+|canal.destination |canal 的instance 名称,kafka模式为topic 名称|null
+|canal.user-name     |canal 的用户名    |null
 |canal.password |canal 的密码     |null
-|canal.zkServers |zookeeper 地址，zookeeper canal 客户端需配置   |null
-|canal.servers |kafka地址，kafka canal 客户端  |null
-|canal.topic |kafka topic，为canal的instance名称 kafka canal 客户端    |null
-|canal.groupId  |kafka groupId 消费者订阅消息时可使用，kafka canal 客户端 |null
+|canal.group-id  |kafka groupId 消费者订阅消息时可使用，kafka canal 客户端 |null
 |canal.async |是否是异步消费，异步消费时，消费时异常将导致消息不会回滚，也不保证顺序性 |true
+|canal.partition |kafka partition |true
 
 ### 订阅数据库的增删改操作
 实现EntryHandler<T> 接口，泛型为想要订阅的数据库表的实体对象，

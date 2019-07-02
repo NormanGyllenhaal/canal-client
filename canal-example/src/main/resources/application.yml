@@ -1,13 +1,13 @@
 canal:
-  hostname: 192.168.33.10
-  port: 11111
+  server: 192.168.0.80:2181
   destination: example
+  mode: zk
 spring:
   application:
     name: canal-example
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://192.168.33.10:3306/test
+    url: jdbc:mysql://192.168.0.80:3306/test
     username: root
     password: 123456
   jooq:

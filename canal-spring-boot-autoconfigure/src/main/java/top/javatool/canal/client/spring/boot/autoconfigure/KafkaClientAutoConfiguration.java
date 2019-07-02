@@ -44,10 +44,11 @@ public class KafkaClientAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnProperty(value = CanalProperties.CANAL_ASYNC, havingValue = "true")
-    public MessageHandler messageHandler(RowDataHandler<List<Map<String, String>>> rowDataHandler, List<EntryHandler> entryHandlers,
+    @ConditionalOnProperty(value = CanalProperties.CANAL_ASYNC, havingValue = "true", matchIfMissing = true)
+    public MessageHandler messageHandler(RowDataHandler<List<Map<String, String>>> rowDataHandler,
+                                         List<EntryHandler> entryHandlers,
                                          ExecutorService executorService) {
-        return new AsyncFlatMessageHandlerImpl(entryHandlers,rowDataHandler,executorService);
+        return new AsyncFlatMessageHandlerImpl(entryHandlers, rowDataHandler, executorService);
     }
 
 
@@ -59,10 +60,10 @@ public class KafkaClientAutoConfiguration {
 
 
     @Bean(initMethod = "start", destroyMethod = "stop")
-    public KafkaCanalClient zookeeperClusterCanalClient(MessageHandler messageHandler) {
-        return KafkaCanalClient.builder().servers(canalKafkaProperties.getServers())
+    public KafkaCanalClient kafkaCanalClient(MessageHandler messageHandler) {
+        return KafkaCanalClient.builder().servers(canalKafkaProperties.getServer())
                 .groupId(canalKafkaProperties.getGroupId())
-                .topic(canalKafkaProperties.getTopic())
+                .topic(canalKafkaProperties.getDestination())
                 .messageHandler(messageHandler)
                 .batchSize(canalKafkaProperties.getBatchSize())
                 .filter(canalKafkaProperties.getFilter())

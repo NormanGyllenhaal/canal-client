@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import top.javatool.canal.client.client.ClusterCanalClient;
-import top.javatool.canal.client.client.SimpleCanalClient;
 import top.javatool.canal.client.factory.EntryColumnModelFactory;
 import top.javatool.canal.client.handler.EntryHandler;
 import top.javatool.canal.client.handler.MessageHandler;
@@ -17,25 +16,25 @@ import top.javatool.canal.client.handler.RowDataHandler;
 import top.javatool.canal.client.handler.impl.AsyncMessageHandlerImpl;
 import top.javatool.canal.client.handler.impl.RowDataHandlerImpl;
 import top.javatool.canal.client.handler.impl.SyncMessageHandlerImpl;
-import top.javatool.canal.client.spring.boot.properties.CanalClusterProperties;
 import top.javatool.canal.client.spring.boot.properties.CanalProperties;
+import top.javatool.canal.client.spring.boot.properties.CanalSimpleProperties;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
 @Configuration
-@EnableConfigurationProperties(CanalClusterProperties.class)
+@EnableConfigurationProperties(CanalSimpleProperties.class)
 @ConditionalOnBean(value = {EntryHandler.class})
 @ConditionalOnProperty(value = CanalProperties.CANAL_MODE, havingValue = "cluster")
 @Import(ThreadPoolAutoConfiguration.class)
 public class ClusterClientAutoConfiguration {
 
 
-    private CanalClusterProperties canalClusterProperties;
+    private CanalSimpleProperties canalSimpleProperties;
 
 
-    public ClusterClientAutoConfiguration(CanalClusterProperties canalClusterProperties) {
-        this.canalClusterProperties = canalClusterProperties;
+    public ClusterClientAutoConfiguration(CanalSimpleProperties canalSimpleProperties) {
+        this.canalSimpleProperties = canalSimpleProperties;
     }
 
     @Bean
@@ -59,16 +58,16 @@ public class ClusterClientAutoConfiguration {
 
 
     @Bean(initMethod = "start", destroyMethod = "stop")
-    public ClusterCanalClient simpleCanalClient(MessageHandler messageHandler) {
+    public ClusterCanalClient clusterCanalClient(MessageHandler messageHandler) {
         return ClusterCanalClient.Builder.builder().
-                canalServers(canalClusterProperties.getCanalServers())
-                .destination(canalClusterProperties.getDestination())
-                .userName(canalClusterProperties.getUserName())
+                canalServers(canalSimpleProperties.getServer())
+                .destination(canalSimpleProperties.getDestination())
+                .userName(canalSimpleProperties.getUserName())
                 .messageHandler(messageHandler)
-                .password(canalClusterProperties.getPassword())
-                .batchSize(canalClusterProperties.getBatchSize())
-                .filter(canalClusterProperties.getFilter())
-                .timeout(canalClusterProperties.getTimeout())
-                .unit(canalClusterProperties.getUnit()).build();
+                .password(canalSimpleProperties.getPassword())
+                .batchSize(canalSimpleProperties.getBatchSize())
+                .filter(canalSimpleProperties.getFilter())
+                .timeout(canalSimpleProperties.getTimeout())
+                .unit(canalSimpleProperties.getUnit()).build();
     }
 }

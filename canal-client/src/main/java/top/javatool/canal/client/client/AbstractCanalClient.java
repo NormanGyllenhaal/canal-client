@@ -68,7 +68,7 @@ public abstract class AbstractCanalClient implements CanalClient {
 
     @Override
     public void process() {
-        if (flag) {
+        while (flag) {
             try {
                 connector.connect();
                 connector.subscribe(filter);

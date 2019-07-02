@@ -16,25 +16,25 @@ import top.javatool.canal.client.handler.RowDataHandler;
 import top.javatool.canal.client.handler.impl.AsyncMessageHandlerImpl;
 import top.javatool.canal.client.handler.impl.RowDataHandlerImpl;
 import top.javatool.canal.client.handler.impl.SyncMessageHandlerImpl;
-import top.javatool.canal.client.spring.boot.properties.CanalZookeeperProperties;
+import top.javatool.canal.client.spring.boot.properties.CanalSimpleProperties;
 import top.javatool.canal.client.spring.boot.properties.CanalProperties;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
 @Configuration
-@EnableConfigurationProperties(CanalZookeeperProperties.class)
+@EnableConfigurationProperties(CanalSimpleProperties.class)
 @ConditionalOnBean(value = {EntryHandler.class})
-@ConditionalOnProperty(value = CanalProperties.CANAL_MODE, havingValue = "zookeeper")
+@ConditionalOnProperty(value = CanalProperties.CANAL_MODE, havingValue = "zk")
 @Import(ThreadPoolAutoConfiguration.class)
 public class ZookeeperClientAutoConfiguration {
 
 
-    private CanalZookeeperProperties canalZookeeperProperties;
+    private CanalSimpleProperties canalSimpleProperties;
 
 
-    public ZookeeperClientAutoConfiguration(CanalZookeeperProperties canalZookeeperProperties) {
-        this.canalZookeeperProperties = canalZookeeperProperties;
+    public ZookeeperClientAutoConfiguration(CanalSimpleProperties canalSimpleProperties) {
+        this.canalSimpleProperties = canalSimpleProperties;
     }
 
     @Bean
@@ -43,7 +43,7 @@ public class ZookeeperClientAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnProperty(value = CanalProperties.CANAL_ASYNC, havingValue = "true")
+    @ConditionalOnProperty(value = CanalProperties.CANAL_ASYNC, havingValue = "true",matchIfMissing = true)
     public MessageHandler messageHandler(RowDataHandler<CanalEntry.RowData> rowDataHandler, List<EntryHandler> entryHandlers,
                                          ExecutorService executorService) {
         return new AsyncMessageHandlerImpl(entryHandlers, rowDataHandler, executorService);
@@ -60,14 +60,14 @@ public class ZookeeperClientAutoConfiguration {
     @Bean(initMethod = "start", destroyMethod = "stop")
     public ZookeeperClusterCanalClient zookeeperClusterCanalClient(MessageHandler messageHandler) {
         return ZookeeperClusterCanalClient.builder()
-                .zkServers(canalZookeeperProperties.getZkServers())
-                .destination(canalZookeeperProperties.getDestination())
-                .userName(canalZookeeperProperties.getUserName())
-                .password(canalZookeeperProperties.getPassword())
-                .batchSize(canalZookeeperProperties.getBatchSize())
-                .filter(canalZookeeperProperties.getFilter())
-                .timeout(canalZookeeperProperties.getTimeout())
-                .unit(canalZookeeperProperties.getUnit())
+                .zkServers(canalSimpleProperties.getServer())
+                .destination(canalSimpleProperties.getDestination())
+                .userName(canalSimpleProperties.getUserName())
+                .password(canalSimpleProperties.getPassword())
+                .batchSize(canalSimpleProperties.getBatchSize())
+                .filter(canalSimpleProperties.getFilter())
+                .timeout(canalSimpleProperties.getTimeout())
+                .unit(canalSimpleProperties.getUnit())
                 .messageHandler(messageHandler)
                 .build();
     }

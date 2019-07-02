@@ -8,41 +8,10 @@ public class CanalSimpleProperties extends CanalProperties {
 
 
 
-    private String hostname;
-
-    private Integer port;
-
-    private String destination;
-
     private String userName;
 
     private String password;
 
-
-
-    public String getHostname() {
-        return hostname;
-    }
-
-    public void setHostname(String hostname) {
-        this.hostname = hostname;
-    }
-
-    public Integer getPort() {
-        return port;
-    }
-
-    public void setPort(Integer port) {
-        this.port = port;
-    }
-
-    public String getDestination() {
-        return destination;
-    }
-
-    public void setDestination(String destination) {
-        this.destination = destination;
-    }
 
     public String getUserName() {
         return userName;

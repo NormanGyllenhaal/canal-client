@@ -25,6 +25,13 @@ public class CanalProperties {
 
 
 
+    private String server;
+
+
+
+    private String destination;
+
+
     private String filter = StringUtils.EMPTY;
 
     private Integer batchSize = 1;
@@ -82,5 +89,22 @@ public class CanalProperties {
 
     public void setUnit(TimeUnit unit) {
         this.unit = unit;
+    }
+
+
+    public String getServer() {
+        return server;
+    }
+
+    public void setServer(String server) {
+        this.server = server;
+    }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
     }
 }

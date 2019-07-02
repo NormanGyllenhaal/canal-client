@@ -60,9 +60,11 @@ public class SimpleClientAutoConfiguration {
 
     @Bean(initMethod = "start", destroyMethod = "stop")
     public SimpleCanalClient simpleCanalClient(MessageHandler messageHandler) {
+        String server = canalSimpleProperties.getServer();
+        String[] array = server.split(":");
         return SimpleCanalClient.builder()
-                .hostname(canalSimpleProperties.getHostname())
-                .port(canalSimpleProperties.getPort())
+                .hostname(array[0])
+                .port(Integer.parseInt(array[1]))
                 .destination(canalSimpleProperties.getDestination())
                 .userName(canalSimpleProperties.getUserName())
                 .password(canalSimpleProperties.getPassword())

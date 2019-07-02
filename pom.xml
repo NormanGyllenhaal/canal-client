@@ -7,7 +7,7 @@
     <groupId>top.javatool</groupId>
     <artifactId>canal</artifactId>
     <packaging>pom</packaging>
-    <version>1.1.1-RELEASE</version>
+    <version>1.2.0-RELEASE</version>
     <modules>
         <module>canal-client</module>
         <module>canal-spring-boot-starter</module>
