@@ -42,13 +42,13 @@ java 方式
 |canal.filter| canal过滤的表名称，如配置则只订阅配置的表|""
 |canal.batch-size| 消息的数量，超过该次数将进行一次消费 |1(个)
 |canal.timeout  |消费的时间间隔(s)|1s
-|canal.server     |服务地址,   |null
+|canal.server     |服务地址,多个地址以,分隔 格式 ${host}:${port}|127.0.0.1:11111
 |canal.destination |canal 的instance 名称,kafka模式为topic 名称|null
 |canal.user-name     |canal 的用户名    |null
 |canal.password |canal 的密码     |null
 |canal.group-id  |kafka groupId 消费者订阅消息时可使用，kafka canal 客户端 |null
 |canal.async |是否是异步消费，异步消费时，消费时异常将导致消息不会回滚，也不保证顺序性 |true
-|canal.partition |kafka partition |true
+|canal.partition |kafka partition |0
 
 ### 订阅数据库的增删改操作
 实现EntryHandler<T> 接口，泛型为想要订阅的数据库表的实体对象，
