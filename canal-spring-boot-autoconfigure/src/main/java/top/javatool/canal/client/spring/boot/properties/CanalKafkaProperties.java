@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class CanalKafkaProperties extends CanalProperties {
 
 
-    private Integer partition = 0;
+    private Integer partition;
 
     private String groupId;
 

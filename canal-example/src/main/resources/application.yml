@@ -1,7 +1,6 @@
 canal:
-  server: 192.168.0.80:2181
+  server: 192.168.0.80:11111
   destination: example
-  mode: zk
 spring:
   application:
     name: canal-example
