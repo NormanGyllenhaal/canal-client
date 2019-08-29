@@ -17,7 +17,8 @@ public class StringConvertUtil {
 
 
     static Object convertType(Class<?> type, String columnValue) {
-        if(columnValue==null){
+        //if(columnValue==null){
+        if(StringUtils.isNotEmpty(columnValue)){
             return null;
         }else if (type.equals(Integer.class)) {
             return Integer.parseInt(columnValue);
