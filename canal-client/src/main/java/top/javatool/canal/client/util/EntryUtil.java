@@ -1,5 +1,6 @@
 package top.javatool.canal.client.util;
 
+import com.google.common.base.CaseFormat;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
 import javax.persistence.Column;
@@ -43,13 +44,8 @@ public class EntryUtil {
 
     private static String getColumnName(Field field) {
         Column annotation = field.getAnnotation(Column.class);
-        if (annotation != null) {
-            return annotation.name();
-        } else {
-            return field.getName();
-        }
+        return annotation != null ? annotation.name() : CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, field.getName());
     }
-
 
     private static boolean notTransient(Field field) {
         Transient annotation = field.getAnnotation(Transient.class);

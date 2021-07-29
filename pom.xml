@@ -7,7 +7,7 @@
     <groupId>top.javatool</groupId>
     <artifactId>canal</artifactId>
     <packaging>pom</packaging>
-    <version>1.2.1-RELEASE</version>
+    <version>1.2.6-RELEASE</version>
     <modules>
         <module>canal-client</module>
         <module>canal-spring-boot-starter</module>
@@ -21,14 +21,25 @@
     <url>https://github.com/NormanGyllenhaal/canal-client.git</url>
 
 
-
+    <distributionManagement>
+        <repository>
+            <id>match</id>
+            <name>releases</name>
+            <url>http://nexus.matchchat.club/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>match</id>
+            <name>snapshots</name>
+            <url>http://nexus.matchchat.club/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
 
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <spring-boot.version>2.0.5.RELEASE</spring-boot.version>
+        <spring-boot.version>2.3.4.RELEASE</spring-boot.version>
     </properties>
     
 

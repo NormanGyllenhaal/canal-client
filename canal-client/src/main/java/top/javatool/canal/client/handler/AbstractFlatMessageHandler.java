@@ -3,6 +3,7 @@ package top.javatool.canal.client.handler;
 import com.alibaba.otter.canal.protocol.CanalEntry;
 import com.alibaba.otter.canal.protocol.FlatMessage;
 
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import top.javatool.canal.client.context.CanalContext;
@@ -14,6 +15,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Slf4j
 public abstract class AbstractFlatMessageHandler implements MessageHandler<FlatMessage> {
 
 
@@ -33,6 +35,7 @@ public abstract class AbstractFlatMessageHandler implements MessageHandler<FlatM
 
     @Override
     public void handleMessage(FlatMessage flatMessage) {
+        log.info("解析消息 {}", flatMessage);
         List<Map<String, String>> data = flatMessage.getData();
         if (data != null && data.size() > 0) {
             for (int i = 0; i < data.size(); i++) {
@@ -47,13 +50,16 @@ public abstract class AbstractFlatMessageHandler implements MessageHandler<FlatM
                 }
                 try {
                     EntryHandler<?> entryHandler = HandlerUtil.getEntryHandler(tableHandlerMap, flatMessage.getTable());
+                    log.info("消息处理器 {}", entryHandler);
                     if (entryHandler != null) {
                         CanalModel model = CanalModel.Builder.builder().id(flatMessage.getId()).table(flatMessage.getTable())
                                 .executeTime(flatMessage.getEs()).database(flatMessage.getDatabase()).createTime(flatMessage.getTs()).build();
                         CanalContext.setModel(model);
+                        log.info("消息发送至行处理 {} {}", maps, eventType);
                         rowDataHandler.handlerRowData(maps, entryHandler, eventType);
                     }
                 } catch (Exception e) {
+                    log.error("消息处理异常 ", e);
                     throw new RuntimeException("parse event has an error , data:" + data.toString(), e);
                 } finally {
                     CanalContext.removeModel();

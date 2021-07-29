@@ -17,8 +17,9 @@ public class ThreadPoolAutoConfiguration {
 
     @Bean(destroyMethod = "shutdown")
     public ExecutorService executorService() {
-        BasicThreadFactory factory = new BasicThreadFactory.Builder().namingPattern("canal-execute-thread-%d")
+        BasicThreadFactory factory = new BasicThreadFactory.Builder()
+                .namingPattern("canal-execute-thread-%d")
                 .uncaughtExceptionHandler(new CanalThreadUncaughtExceptionHandler()).build();
-        return Executors.newFixedThreadPool(10, factory);
+        return Executors.newFixedThreadPool(20, factory);
     }
 }

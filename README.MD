@@ -23,7 +23,7 @@ maven 依赖
   <dependency>
       <groupId>top.javatool</groupId>
       <artifactId>canal-spring-boot-starter</artifactId>
-      <version>1.2.1-RELEASE</version>
+      <version>1.2.6-RELEASE</version>
   </dependency>
 ```
 java 方式
@@ -31,7 +31,7 @@ java 方式
  <dependency>
        <groupId>top.javatool</groupId>
        <artifactId>canal-client</artifactId>
-       <version>1.2.1-RELEASE</version>
+       <version>1.2.6-RELEASE</version>
  </dependency>
 ```
 配置说明
