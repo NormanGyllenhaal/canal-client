@@ -1,6 +1,7 @@
 package top.javatool.canal.client.util;
 
 import com.google.common.base.CaseFormat;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
 import javax.persistence.Column;
@@ -31,7 +32,7 @@ public class EntryUtil {
     public static Map<String, String> getFieldName(Class c) {
         Map<String, String> map = cache.get(c);
         if (map == null) {
-            List<Field> fields = FieldUtils.getAllFieldsList(c);
+            List<Field> fields = distinct(FieldUtils.getAllFieldsList(c));
             //如果实体类中存在column 注解，则使用column注解的名称为字段名
             map = fields.stream().filter(EntryUtil::notTransient)
                     .filter(field -> !Modifier.isStatic(field.getModifiers()))
@@ -40,11 +41,28 @@ public class EntryUtil {
         }
         return map;
     }
-
+    
+    /**
+     * 去重
+     * @param fields  fields
+     * @return fields
+     */
+    private static List<Field> distinct(List<Field> fields){
+        return fields.stream()
+                .collect(
+                        Collectors.collectingAndThen(
+                                Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(EntryUtil::getColumnName))),
+                                ArrayList::new
+                        )
+                );
+    }
 
     private static String getColumnName(Field field) {
         Column annotation = field.getAnnotation(Column.class);
-        return annotation != null ? annotation.name() : CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, field.getName());
+        if (Objects.isNull(annotation) || StringUtils.isEmpty(annotation.name())) {
+            return CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, field.getName());
+        }
+        return annotation.name();
     }
 
     private static boolean notTransient(Field field) {
