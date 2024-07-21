@@ -1,9 +1,15 @@
 package top.javatool.canal.client.util;
 
+import com.alibaba.google.common.base.Enums;
 import org.apache.commons.lang.time.DateUtils;
 
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 /**
@@ -11,18 +17,18 @@ import java.util.Date;
  */
 public class StringConvertUtil {
 
-
-    private static String[] PARSE_PATTERNS = new String[]{"yyyy-MM-dd", "yyyy-MM-dd HH:mm:ss",
+    private static String[] PARSE_PATTERNS = new String[]{
+            "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm:ss.SSS",
             "yyyy-MM-dd HH:mm", "yyyy-MM", "yyyy/MM/dd", "yyyy/MM/dd HH:mm:ss",
             "yyyy/MM/dd HH:mm", "yyyy/MM", "yyyy.MM.dd", "yyyy.MM.dd HH:mm:ss",
-            "yyyy.MM.dd HH:mm", "yyyy.MM"};
-
+            "yyyy.MM.dd HH:mm", "yyyy.MM", "yyyy-MM-dd"};
     public StringConvertUtil() {
     }
-
-    static Object convertType(Class<?> type, String columnValue) {
-        if (columnValue == null) {
+    static Object convertType(Class type, String columnValue) {
+        if (columnValue == null || columnValue.length() == 0) {
             return null;
+        } else if (type.equals(String.class)) {
+            return columnValue;
         } else if (type.equals(Integer.class)) {
             return Integer.parseInt(columnValue);
         } else if (type.equals(Long.class)) {
@@ -37,8 +43,36 @@ public class StringConvertUtil {
             return Float.parseFloat(columnValue);
         } else if (type.equals(Date.class)) {
             return parseDate(columnValue);
+        } else if (type.equals(LocalDate.class)) {
+            return parseLocalDate(columnValue);
+        } else if (type.equals(LocalDateTime.class)) {
+            return parseLocalDateTime(columnValue);
+        } else if (type.equals(java.sql.Date.class)) {
+            return parseSqlDate(columnValue);
+        } else if (type.isArray()) {
+            // blob/binary
+            return columnValue.getBytes(StandardCharsets.ISO_8859_1);
         } else {
-            return type.equals(java.sql.Date.class) ? parseSqlDate(columnValue) : columnValue;
+            // 枚举类型
+            return Enums.stringConverter(type).convert(columnValue);
+        }
+    }
+
+    private static Object parseLocalDateTime(String str) {
+        if (str == null) {
+            return null;
+        } else {
+            Instant instant = parseDate(str).toInstant();
+            return instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
+        }
+    }
+
+    private static Object parseLocalDate(String str) {
+        if (str == null) {
+            return null;
+        } else {
+            Instant instant = parseDate(str).toInstant();
+            return instant.atZone(ZoneId.systemDefault()).toLocalDate();
         }
     }
 

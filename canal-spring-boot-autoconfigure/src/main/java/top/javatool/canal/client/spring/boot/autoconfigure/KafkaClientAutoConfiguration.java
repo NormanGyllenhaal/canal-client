@@ -2,10 +2,12 @@ package top.javatool.canal.client.spring.boot.autoconfigure;
 
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Import;
 import top.javatool.canal.client.client.KafkaCanalClient;
 import top.javatool.canal.client.factory.MapColumnModelFactory;
@@ -43,22 +45,30 @@ public class KafkaClientAutoConfiguration {
         return new MapRowDataHandlerImpl(new MapColumnModelFactory());
     }
 
-    @Bean
-    @ConditionalOnProperty(value = CanalProperties.CANAL_ASYNC, havingValue = "true", matchIfMissing = true)
-    public MessageHandler messageHandler(RowDataHandler<List<Map<String, String>>> rowDataHandler,
-                                         List<EntryHandler> entryHandlers,
-                                         ExecutorService executorService) {
-        return new AsyncFlatMessageHandlerImpl(entryHandlers, rowDataHandler, executorService);
+    @Configuration
+    @ConditionalOnProperty(value = CanalProperties.CANAL_MODE, havingValue = "kafka")
+    @ConditionalOnExpression(value = "${canal.async:true}")
+    public static class CanalAsyncMessageHandler{
+        @Bean
+        public MessageHandler messageHandler(RowDataHandler<List<Map<String, String>>> rowDataHandler,
+                                             List<EntryHandler> entryHandlers,
+                                             ExecutorService executorService) {
+            return new AsyncFlatMessageHandlerImpl(entryHandlers, rowDataHandler, executorService);
+        }
     }
 
+    @Configuration
+    @ConditionalOnProperty(value = CanalProperties.CANAL_MODE, havingValue = "kafka")
+    @ConditionalOnExpression(value = "!${canal.async:true}")
+    public static class CanalSyncMessageHandler{
 
-    @Bean
-    @ConditionalOnProperty(value = CanalProperties.CANAL_ASYNC, havingValue = "false")
-    public MessageHandler messageHandler(RowDataHandler<List<Map<String, String>>> rowDataHandler, List<EntryHandler> entryHandlers) {
-        return new SyncFlatMessageHandlerImpl(entryHandlers, rowDataHandler);
+        @Bean
+        public MessageHandler messageHandler(RowDataHandler<List<Map<String, String>>> rowDataHandler, List<EntryHandler> entryHandlers) {
+            return new SyncFlatMessageHandlerImpl(entryHandlers, rowDataHandler);
+        }
     }
 
-
+    @DependsOn("messageHandler")
     @Bean(initMethod = "start", destroyMethod = "stop")
     public KafkaCanalClient kafkaCanalClient(MessageHandler messageHandler) {
         return KafkaCanalClient.builder().servers(canalKafkaProperties.getServer())
