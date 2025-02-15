@@ -1,9 +1,13 @@
 package top.javatool.canal.client.util;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 
 /**
@@ -21,7 +25,7 @@ public class StringConvertUtil {
     }
 
     static Object convertType(Class<?> type, String columnValue) {
-        if (columnValue == null) {
+        if (StringUtils.isBlank(columnValue)) {
             return null;
         } else if (type.equals(Integer.class)) {
             return Integer.parseInt(columnValue);
@@ -37,7 +41,10 @@ public class StringConvertUtil {
             return Float.parseFloat(columnValue);
         } else if (type.equals(Date.class)) {
             return parseDate(columnValue);
-        } else {
+        } else if (type.equals(LocalDateTime.class)) {
+            return parseLocalDateTime(columnValue);
+        }
+        else {
             return type.equals(java.sql.Date.class) ? parseSqlDate(columnValue) : columnValue;
         }
     }
@@ -69,5 +76,19 @@ public class StringConvertUtil {
 
     private static boolean convertToBoolean(String value) {
         return "1".equalsIgnoreCase(value) || "true".equalsIgnoreCase(value);
+    }
+    private static LocalDateTime parseLocalDateTime(String str) {
+        if (str == null || str.isEmpty()) {
+            return null;
+        } else {
+            for (String pattern : PARSE_PATTERNS) {
+                try {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+                    return LocalDateTime.parse(str, formatter);
+                } catch (DateTimeParseException e) {
+                }
+            }
+            return null;
+        }
     }
 }
